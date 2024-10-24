@@ -12,7 +12,7 @@ h2{
 }
 .Blink{
     animation: blinker 0.1s linear infinite;
-    color: greenyellow;
+    color:#acfe2f;
 }
 @keyframes blinker{
     50% {
@@ -29,4 +29,3 @@ h2{
     font-family: JapaneseFont;
     src: url(MegaMan.ttf);
   }
-  
