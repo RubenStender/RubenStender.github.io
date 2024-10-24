@@ -29,3 +29,7 @@ h2{
     font-family: JapaneseFont;
     src: url(MegaMan.ttf);
   }
+  .card {
+    background-color: #1a5d2a;
+}
+
