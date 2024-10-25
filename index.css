@@ -11,12 +11,12 @@ h2{
     padding-top: -50px;
 }
 .Blink{
-    animation: blinker 0.1s linear infinite;
+    animation: blinker 0.2s linear infinite;
     color:#acfe2f;
 }
 @keyframes blinker{
     50% {
-        opacity: 0.75;
+        opacity: 0.80;
     }
 }
 .Content{
