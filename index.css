@@ -32,4 +32,10 @@ h2{
   .card {
     background-color: #1a5d2a;
 }
+.custom-progress {
+    background-color: #7fbd24; /* Bright green */
+}
+.custom-progress-track {
+    background-color: #1e9539; /* Dark gray for the empty track */
+}
 
