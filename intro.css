@@ -1,0 +1,58 @@
+  
+  body{
+    background-color: #242424;
+    font-family: JapaneseFont;
+    font-size: medium;
+}
+h1{
+    color: rgb(184, 0, 37);
+    padding-bottom: -20px;
+}
+h2{
+    padding-top: -50px;
+}
+.Blink{
+    animation: blinker 0.2s linear infinite;
+    color:#acfe2f;
+}
+.IntroBlink{
+  animation: intro_blink 3.5s linear;
+}
+@keyframes blinker{
+    50% {
+        opacity: 0.80;
+    }
+}
+@keyframes intro_blink{
+     0% {
+        opacity: 0.0;
+        
+    }
+    
+}
+.Content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+@font-face {
+    font-family: JapaneseFont;
+    src: url(MegaMan.ttf);
+  }
+  .card {
+    background-color: #1a5d2a;
+}
+.custom-progress {
+    background-color: #7fbd24; 
+}
+.custom-progress-track {
+    background-color: #1a8232; 
+}
+
+  #crt-canvas {
+    display: block;
+    width: 98vw;
+    height: 50vh;
+  }
+  
