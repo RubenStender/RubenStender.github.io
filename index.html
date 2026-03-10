@@ -1,114 +1,682 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<title>Ruben_Stender_Portfolio</title>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUBEN_STENDER // PORTFOLIO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #39ff14;
+      --green-dim: #86b441;
+      --green-dark: #1a3a0a;
+      --bg: #0a0f08;
+      --amber: #ffb300;
+      --red: #ff2244;
+      --scan: rgba(57,255,20,0.03);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── SCANLINES ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 9998;
+      animation: scanroll 12s linear infinite;
+    }
+    @keyframes scanroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 80px; }
+    }
+
+    /* ── PHOSPHOR VIGNETTE ── */
+    .vignette {
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.75) 100%);
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      height: 42px;
+      border-bottom: 1px solid rgba(57,255,20,0.25);
+      background: rgba(10,15,8,0.92);
+      backdrop-filter: blur(4px);
+    }
+    .topbar-left { font-size: 0.65rem; opacity: 0.5; letter-spacing: 0.15em; }
+    .topbar-right { font-size: 0.65rem; opacity: 0.5; letter-spacing: 0.1em; }
+    #clock { color: var(--amber); }
+
+    .nav-links {
+      display: flex; gap: 2rem;
+    }
+    .nav-links a {
+      color: var(--green-dim);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.15s, text-shadow 0.15s;
+    }
+    .nav-links a:hover {
+      color: var(--green);
+      text-shadow: 0 0 10px var(--green);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 80px 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(57,255,20,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57,255,20,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    }
+
+    .signal-badge {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--amber);
+      border: 1px solid var(--amber);
+      padding: 4px 14px;
+      margin-bottom: 2rem;
+      animation: flicker 4s infinite;
+    }
+    @keyframes flicker {
+      0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.4} 94%{opacity:1} 96%{opacity:0.7} 97%{opacity:1}
+    }
+
+    .hero-name {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      color: var(--green);
+      text-shadow:
+        0 0 20px rgba(57,255,20,0.6),
+        0 0 60px rgba(57,255,20,0.2),
+        0 0 100px rgba(57,255,20,0.1);
+      animation: glitch 6s infinite;
+      position: relative;
+    }
+
+    @keyframes glitch {
+      0%,95%,100%{text-shadow: 0 0 20px rgba(57,255,20,0.6),0 0 60px rgba(57,255,20,0.2); transform: none;}
+      96%{text-shadow: 3px 0 var(--red), -3px 0 #00f0ff; transform: skewX(-2deg);}
+      97%{text-shadow: -3px 0 var(--red), 3px 0 #00f0ff; transform: skewX(1deg);}
+      98%{text-shadow: 0 0 20px rgba(57,255,20,0.6); transform: none;}
+    }
+
+    .hero-jp {
+      font-size: 1.4rem;
+      opacity: 0.45;
+      margin-top: 0.5rem;
+      letter-spacing: 0.5em;
+    }
+
+    .hero-tagline {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      opacity: 0.5;
+      margin-top: 1.5rem;
+      text-align: center;
+      max-width: 400px;
+    }
+
+    /* ── OSCILLOSCOPE LINE ── */
+    .osc-wrap {
+      width: min(500px, 90vw);
+      margin: 2.5rem 0;
+      position: relative;
+    }
+    .osc-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      opacity: 0.4;
+      margin-bottom: 4px;
+    }
+    canvas#osc {
+      width: 100%;
+      height: 70px;
+      display: block;
+      border: 1px solid rgba(57,255,20,0.2);
+      background: rgba(0,10,0,0.6);
+    }
+
+    .scroll-hint {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      opacity: 0.35;
+      animation: pulse 2s ease-in-out infinite;
+      margin-top: 1rem;
+    }
+    @keyframes pulse { 0%,100%{opacity:0.35} 50%{opacity:0.7} }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-num {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      color: var(--amber);
+      letter-spacing: 0.2em;
+    }
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(57,255,20,0.4), transparent);
+    }
+
+    /* ── STAT CARDS ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      border: 1px solid rgba(57,255,20,0.2);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(57,255,20,0.04) 0%, transparent 60%);
+      transition: opacity 0.3s;
+    }
+    .stat-card:hover {
+      border-color: rgba(57,255,20,0.6);
+      box-shadow: 0 0 20px rgba(57,255,20,0.1), inset 0 0 20px rgba(57,255,20,0.03);
+    }
+    .card-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      opacity: 0.45;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .card-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--green);
+      text-shadow: 0 0 15px rgba(57,255,20,0.5);
+    }
+    .card-sub {
+      font-size: 0.65rem;
+      opacity: 0.4;
+      margin-top: 0.3rem;
+    }
+    .card-corner {
+      position: absolute; top: 8px; right: 10px;
+      font-size: 0.5rem; opacity: 0.25; letter-spacing: 0.1em;
+    }
+
+    /* ── SKILLS ── */
+    .skill-row {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+    .skill-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      width: 80px;
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+    .skill-track {
+      flex: 1;
+      height: 14px;
+      background: rgba(57,255,20,0.06);
+      border: 1px solid rgba(57,255,20,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--green) 0px,
+        var(--green) 6px,
+        transparent 6px,
+        transparent 9px
+      );
+      width: 0;
+      transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 2px 0 12px rgba(57,255,20,0.8);
+    }
+    .skill-pct {
+      font-size: 0.6rem;
+      width: 32px;
+      text-align: right;
+      opacity: 0.55;
+      flex-shrink: 0;
+    }
+
+    /* ── PROJECTS ── */
+    .project-list {
+      display: flex; flex-direction: column; gap: 1px;
+      border: 1px solid rgba(57,255,20,0.15);
+    }
+    .project-item {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid rgba(57,255,20,0.08);
+      transition: background 0.15s;
+      cursor: default;
+    }
+    .project-item:last-child { border-bottom: none; }
+    .project-item:hover { background: rgba(57,255,20,0.04); }
+    .project-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      flex-shrink: 0;
+      animation: blink-dot 2s ease-in-out infinite;
+    }
+    @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .project-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+    .project-tag {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      opacity: 0.7;
+      margin-left: auto;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .contact-item {
+      border: 1px solid rgba(57,255,20,0.2);
+      padding: 1.2rem 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .contact-item:hover { border-color: var(--green); }
+    .contact-item a {
+      color: var(--green);
+      text-decoration: none;
+    }
+    .contact-lbl { font-size: 0.55rem; letter-spacing: 0.25em; opacity: 0.4; margin-bottom: 0.5rem; }
+    .contact-val { font-size: 0.75rem; letter-spacing: 0.05em; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(57,255,20,0.15);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      opacity: 0.3;
+    }
+
+    /* ── TYPEWRITER ── */
+    .typewriter::after {
+      content: '█';
+      animation: cur 0.7s step-end infinite;
+    }
+    @keyframes cur { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      margin-top: 3rem;
+      padding: 1rem 0;
+      border-top: 1px solid rgba(57,255,20,0.1);
+      border-bottom: 1px solid rgba(57,255,20,0.1);
+    }
+    .status-item { font-size: 0.6rem; letter-spacing: 0.15em; opacity: 0.4; }
+    .status-item span { color: var(--green); opacity: 1; }
+
+    /* ── TAPE DECK VIZ ── */
+    .tape-wrap {
+      display: flex; align-items: center; gap: 2rem;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      border: 1px solid rgba(57,255,20,0.15);
+      background: rgba(0,10,0,0.4);
+    }
+    .reel {
+      width: 50px; height: 50px;
+      border: 2px solid rgba(57,255,20,0.4);
+      border-radius: 50%;
+      position: relative;
+      animation: spin 3s linear infinite;
+    }
+    .reel::before {
+      content:'';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 16px; height: 16px;
+      border: 2px solid rgba(57,255,20,0.4);
+      border-radius: 50%;
+    }
+    .reel::after {
+      content:'';
+      position: absolute; top: 50%; left: 50%;
+      width: 2px; height: 22px;
+      background: rgba(57,255,20,0.4);
+      transform-origin: bottom center;
+      transform: translate(-50%, -100%) rotate(45deg);
+    }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    .tape-info { font-size: 0.65rem; line-height: 2; }
+    .tape-info .hi { color: var(--amber); }
+
+    /* ── ANIMATE ON SCROLL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
 </head>
+<body>
 
-<body class="text-light">
-  <!-- CRT wrapper -->
-  <div class="crt">
+<div class="vignette"></div>
 
-    <div class="ProjectsLinks text-center p-2">
-        <div class="PaddingLinks px-6">
-            <a href="my_projects.html" class="Blink">My projects</a>
-            <a href="Art.html" class="Blink">Art</a>
-            <a href="World_Building.html" class="Blink">World building</a>
-        </div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">SYS::PORTFOLIO_OS v2.4 &nbsp;|&nbsp; SIGNAL: STRONG</div>
+  <nav class="nav-links">
+    <a href="#about">PROFILE</a>
+    <a href="#skills">SKILLS</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+  <div class="topbar-right" id="clock">--:--:--</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="signal-badge">▶ TRANSMITTING // PORTFOLIO SIGNAL ACTIVE</div>
+  <h1 class="hero-name">RUBEN<br>STENDER</h1>
+  <div class="hero-jp">ルーベン</div>
+  <p class="hero-tagline typewriter">SOFTWARE DEV · GAME CREATOR · WORLDBUILDER</p>
+
+  <div class="osc-wrap">
+    <div class="osc-label">▌ WAVEFORM OUTPUT — ACTIVE</div>
+    <canvas id="osc" width="600" height="70"></canvas>
+  </div>
+
+  <div class="scroll-hint">▼ &nbsp; SCROLL TO INITIALIZE &nbsp; ▼</div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <span class="section-title">System Profile</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tape-wrap reveal">
+    <div class="reel"></div>
+    <div class="reel" style="animation-direction:reverse; width:38px; height:38px;"></div>
+    <div class="tape-info">
+      <div>ID: <span class="hi">RUBEN_STENDER</span></div>
+      <div>AGE: <span class="hi">18</span></div>
+      <div>LOCATION: <span class="hi">ENSCHEDE, NL</span></div>
+      <div>STATUS: <span class="hi">YEAR 2 — SOFTWARE DEV</span></div>
     </div>
+  </div>
 
-    <div class="container text-center mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h1 class="Blink display-6">Ruben Stender</h1>
-                <h2 class="Blink fs-5">ルーベン</h2>
-                <p class="Blink fs-7 pb-5">Welcome to my portfolio</p>
-                <p class="Blink fs-7 pb-5">I'm an 18-year-old beginner software developer from Enschede, a city in the Netherlands.
-                I like creating stories, games, and building universes of characters.
-                My creativity constantly gives me ideas for new characters, abilities, and places for my worldbuilding project.
-                And it's giving me new ideas for games.</p>
-                <h2 class="Blink fs-5">The beginning</h2>
-                <p class="Blink fs-7 pb-5">My interest in code and worldbuilding comes from a young age.
-                When I played my first couple of games on my first console, the Xbox 360, I loved the way games felt.
-                How the story behind it was, how the characters looked, and how the emotions changed by all of them.
-                When I started getting into superhero movies, I knew I wanted to create characters as well.
-                The first couple of characters I created were harsh—not fully thought out and just overall not the best.
-                I missed the way the game characters felt alive, and mine felt... bland.
-                Since then, I wanted to go into either animation or game development.
-                </p>
-                <a href="World_Building.html" class="Blink pb-5">You can find my Worldbuilding project here!!</a>
-                <p class="fs-7 pb-5"></p>
-                <h2 class="Blink fs-5">Where am I at now?</h2>
-                <p class="Blink fs-7 pb-5">I'm in the first half of my second year in software development now.
-                While taking this course in software development, I learned a lot of new skills.
-                I've already made a couple of games like "Orey", "Torment", and "Towaria."
-                </p>
-                <a href="my_projects.html" class="Blink pb-5">You can find my other projects here!!</a>
-                <p class="fs-7 pb-5"></p>
-                <h3 class="Blink fs-5">My skills</h3>
-                <p class="Blink fs-7 pb-5">I've learned quite a handful of coding skills and computer knowledge while taking this course.
-                The main programming language i use the most C#. I've also learned quite a bit of HTML and CSS, i learned
-                Javascript and just started learning python.
-                </p>
-
-                <div class="Blink">
-                    <div class="row text-start">
-                        <div class="col-12 mb-3">
-                            <label for="html-skill" class="form-label">HTML</label>
-                            <div class="progress custom-progress-track">
-                                <div id="html-skill" class="progress-bar custom-progress" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label for="css-skill" class="form-label">CSS</label>
-                            <div class="progress custom-progress-track">
-                                <div id="css-skill" class="progress-bar custom-progress" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label for="js-skill" class="form-label">JavaScript</label>
-                            <div class="progress custom-progress-track">
-                                <div id="js-skill" class="progress-bar custom-progress" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label for="python-skill" class="form-label">Python</label>
-                            <div class="progress custom-progress-track">
-                                <div id="python-skill" class="progress-bar custom-progress" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label for="csharp-skill" class="form-label">C#</label>
-                            <div class="progress custom-progress-track">
-                                <div id="csharp-skill" class="progress-bar custom-progress" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="fs-7 pb-5"></p>
-                <h2 class="Blink fs-5">Contact Me!!</h2>
-                <p class="Blink">Phone-Number: +31 6 41 45 53 42</p>
-                <p class="Blink">E-mail: rubenstender@gmail.com</p>
-                <a class="Blink" href="https://www.linkedin.com/in/ruben-stender-undefined-33845a31a/">My linkedIn!!</a>
-            </div>
-        </div>
+  <div class="cards-grid reveal" style="margin-top:1.5rem;">
+    <div class="stat-card">
+      <div class="card-corner">NODE_01</div>
+      <div class="card-label">Origin</div>
+      <div class="card-value" style="font-size:1.1rem;">XBOX 360</div>
+      <div class="card-sub">First console. First spark.</div>
     </div>
-
-    <div class="container mt-5">
-        <div class="AboutMe">
-            <div class="Picture">
-                <!-- Optional picture -->
-            </div>
-        </div>
+    <div class="stat-card">
+      <div class="card-corner">NODE_02</div>
+      <div class="card-label">Drive</div>
+      <div class="card-value" style="font-size:1.1rem;">GAME DEV</div>
+      <div class="card-sub">Stories. Characters. Worlds.</div>
     </div>
-  </div> <!-- end .crt -->
+    <div class="stat-card">
+      <div class="card-corner">NODE_03</div>
+      <div class="card-label">Primary Lang</div>
+      <div class="card-value">C#</div>
+      <div class="card-sub">80% proficiency</div>
+    </div>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="status-bar reveal">
+    <div class="status-item">PASSION: <span>WORLDBUILDING</span></div>
+    <div class="status-item">MEDIUM: <span>GAMES + CODE</span></div>
+    <div class="status-item">STYLE: <span>STORY-FIRST</span></div>
+    <div class="status-item">MODE: <span>LEARNING</span></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <span class="section-title">Skill Readout</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="reveal" id="skills-block">
+    <div class="skill-row">
+      <div class="skill-name">C#</div>
+      <div class="skill-track"><div class="skill-fill" data-pct="80"></div></div>
+      <div class="skill-pct">80%</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-name">HTML</div>
+      <div class="skill-track"><div class="skill-fill" data-pct="70"></div></div>
+      <div class="skill-pct">70%</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-name">CSS</div>
+      <div class="skill-track"><div class="skill-fill" data-pct="65"></div></div>
+      <div class="skill-pct">65%</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-name">JS</div>
+      <div class="skill-track"><div class="skill-fill" data-pct="55"></div></div>
+      <div class="skill-pct">55%</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-name">PYTHON</div>
+      <div class="skill-track"><div class="skill-fill" data-pct="30"></div></div>
+      <div class="skill-pct">30%</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <span class="section-title">Project Log</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="project-list reveal">
+    <div class="project-item">
+      <div class="project-dot"></div>
+      <div class="project-name">OREY</div>
+      <div class="project-tag">GAME // ACTIVE</div>
+    </div>
+    <div class="project-item">
+      <div class="project-dot" style="background:var(--amber);box-shadow:0 0 8px var(--amber);"></div>
+      <div class="project-name">TORMENT</div>
+      <div class="project-tag">GAME // ARCHIVED</div>
+    </div>
+    <div class="project-item">
+      <div class="project-dot" style="background:var(--amber);box-shadow:0 0 8px var(--amber);"></div>
+      <div class="project-name">TOWARIA</div>
+      <div class="project-tag">GAME // ARCHIVED</div>
+    </div>
+    <div class="project-item">
+      <div class="project-dot" style="animation-duration:0.8s;"></div>
+      <div class="project-name">WORLDBUILDING</div>
+      <div class="project-tag">UNIVERSE // ONGOING</div>
+    </div>
+  </div>
+
+  <div class="status-bar reveal" style="margin-top:2rem;">
+    <div class="status-item"><a href="my_projects.html" style="color:var(--green);text-decoration:none;letter-spacing:0.15em;">▶ VIEW ALL PROJECTS</a></div>
+    <div class="status-item"><a href="World_Building.html" style="color:var(--amber);text-decoration:none;letter-spacing:0.15em;">▶ ENTER WORLD</a></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <span class="section-title">Open Channel</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="contact-grid reveal">
+    <div class="contact-item">
+      <div class="contact-lbl">VOICE LINE</div>
+      <div class="contact-val">+31 6 41 45 53 42</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-lbl">SIGNAL</div>
+      <div class="contact-val"><a href="mailto:rubenstender@gmail.com">rubenstender@gmail.com</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-lbl">NETWORK</div>
+      <div class="contact-val"><a href="https://www.linkedin.com/in/ruben-stender-undefined-33845a31a/" target="_blank">LINKEDIN //▶</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2024 RUBEN_STENDER &nbsp;|&nbsp; PORTFOLIO_OS &nbsp;|&nbsp; ALL SIGNALS RESERVED</footer>
+
+<script>
+  // Clock
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toTimeString().slice(0,8);
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Oscilloscope
+  const canvas = document.getElementById('osc');
+  const ctx = canvas.getContext('2d');
+  let t = 0;
+  function drawOsc() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#39ff14';
+    ctx.lineWidth = 1.5;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = '#39ff14';
+    ctx.beginPath();
+    for (let x = 0; x < canvas.width; x++) {
+      const freq1 = 0.04, freq2 = 0.011, freq3 = 0.025;
+      const y = canvas.height / 2
+        + Math.sin(x * freq1 + t) * 12
+        + Math.sin(x * freq2 + t * 0.7) * 8
+        + Math.sin(x * freq3 + t * 1.3) * 5
+        + (Math.random() - 0.5) * 0.8;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    t += 0.06;
+    requestAnimationFrame(drawOsc);
+  }
+  drawOsc();
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Animate skills when visible
+        if (e.target.id === 'skills-block') {
+          setTimeout(() => {
+            document.querySelectorAll('.skill-fill').forEach(fill => {
+              fill.style.width = fill.dataset.pct + '%';
+            });
+          }, 200);
+        }
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(r => observer.observe(r));
+</script>
 </body>
-<footer class="text-center py-4">
-    <p class="Blink">&copy; 2024 RubenStender | Portfolio</p>
-</footer>
 </html>
