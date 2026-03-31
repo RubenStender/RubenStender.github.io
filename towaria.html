@@ -1,94 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<title>Ruben_Stender_Portfolio</title>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Towaria — Ruben Stender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0d120b; --border:rgba(134,180,65,0.18);
+      --green:#86b441; --green-hi:#aad458;
+      --amber:#c8960a; --muted:rgba(134,180,65,0.4);
+      --text:rgba(134,180,65,0.8);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:var(--bg); color:var(--text);
+      font-family:'Share Tech Mono', monospace;
+      font-size:14px; line-height:1.7; min-height:100vh;
+    }
+    body::after {
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+      pointer-events:none; z-index:9999;
+    }
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:44px;
+      background:rgba(13,18,11,0.92);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(6px);
+    }
+    .nav-id { font-size:11px; letter-spacing:0.2em; color:var(--amber); }
+    .nav-links { display:flex; gap:2rem; }
+    .nav-links a {
+      font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--muted); text-decoration:none; transition:color 0.15s;
+    }
+    .nav-links a:hover { color:var(--green-hi); }
+    #clock { font-size:11px; color:var(--muted); }
+    .page-header { max-width:700px; margin:0 auto; padding:100px 2.5rem 3rem; }
+    .back-link {
+      font-size:11px; letter-spacing:0.2em; color:var(--muted);
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      margin-bottom:2rem; transition:color 0.15s;
+    }
+    .back-link:hover { color:var(--green-hi); }
+    .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--amber); margin-bottom:1.25rem; }
+    .page-title {
+      font-family:'Orbitron', monospace; font-weight:700;
+      font-size:clamp(2rem,6vw,3.5rem); color:var(--green-hi);
+      letter-spacing:0.05em; line-height:1.1;
+    }
+    .page-jp { font-size:13px; letter-spacing:0.3em; color:var(--muted); margin-top:0.5rem; }
+    .header-rule { margin-top:2rem; border:none; border-top:1px solid var(--border); }
+    .content { max-width:700px; margin:0 auto; padding:3rem 2.5rem 6rem; }
+    .block { margin-bottom:3rem; }
+    .block-label { font-size:10px; letter-spacing:0.3em; color:var(--amber); margin-bottom:0.5rem; }
+    .block-title {
+      font-family:'Orbitron', monospace; font-size:0.9rem; font-weight:700;
+      color:var(--green-hi); letter-spacing:0.1em; margin-bottom:1rem;
+    }
+    p { font-size:13px; color:var(--text); opacity:0.8; margin-bottom:1rem; }
+    .tower-list { border:1px solid var(--border); margin-bottom:2rem; }
+    .tower-row {
+      display:flex; gap:1.5rem; align-items:flex-start;
+      padding:1rem 1.5rem; border-bottom:1px solid var(--border);
+    }
+    .tower-row:last-child { border-bottom:none; }
+    .tower-name {
+      font-family:'Orbitron', monospace; font-size:0.75rem; font-weight:700;
+      color:var(--green-hi); width:120px; flex-shrink:0; padding-top:2px;
+    }
+    .tower-desc { font-size:12px; opacity:0.6; }
+    .inline-link {
+      font-size:11px; letter-spacing:0.2em; color:var(--green);
+      text-decoration:none; border:1px solid var(--border); padding:6px 16px;
+      display:inline-block; transition:border-color 0.15s, color 0.15s;
+    }
+    .inline-link:hover { border-color:var(--green); color:var(--green-hi); }
+    footer {
+      text-align:center; padding:2rem; font-size:10px;
+      letter-spacing:0.2em; color:var(--muted); border-top:1px solid var(--border);
+    }
+  </style>
 </head>
+<body>
+<nav>
+  <span class="nav-id">RS // TOWARIA</span>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="my_projects.html">Projects</a>
+    <a href="Art.html">Art</a>
+  </div>
+  <span id="clock">--:--:--</span>
+</nav>
 
-<body class="text-light">
-    <div class="crt">   
-        <div class="ProjectsLinks text-center p-2">
-            <div class="PaddingLinks px-6">
-                <a href="my_projects.html" class="Blink">Go back</a>
-            </div>
-        </div>
-        <div class="container text-center mt-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <h1 class="Blink display-6">Towaria</h1>
-                    <h2 class="Blink fs-5">トワリア</h2>
-                    <p class="Blink fs-7 pb-5">Ever had a moment where your train arrives later, and you find yourself bored? Not anymore!!!
-                        Introducing... TOWARIA!!!
-                    </p>
-                    <h2 class="Blink fs-5">What is towaria?</h2>
-                    <p class="Blink fs-7 pb-5">Towaria is a tower defense game with a medieval type theme.
-                        The game is made to be a cute game, targeted to children or just people that like to kill time.
-                        The game has a blocky voxel artstyle, letting it feed more in the cute vibe of the game.
-                        The game plays like just a normal tower defense but we made it more accesible to people that don't have a lot of time on their hands.
-                        This game is a fast-paced level based tower defense.
-                        Do you fail the round get another chance untill you do get it. Get coins from enemies and go to the next stage.
-                    </p>
-                    <h2 class="Blink fs-5">Some mechanics</h2>
-                    <p class="Blink">It plays like a normal tower defense but with a twist.
-                        If you fail a stage you restart the same wave with the same towers you previously placed.
-                        After every wave you have the ability to place more towers.
-                        Every tower does different damage.
-                    </p>
-                    <h2 class="Blink">The four towers:</h2>
-                    <ol class="Blink pb-5">
-                        <li>Archer tower</li>
-                        <li>Cannon tower</li>
-                        <li>Magic tower</li>
-                        <li>Shock tower</li>
-                    </ol>
-                    <p class="Blink">These towers work as followed!!!</p>
-                    <h3 class="Blink">Archer tower</h3>
-                    <p class="Blink">The archer tower is a tower with a quite fast fire rate but not a lot of damage.
-                        The tower shoots small arrows to defeat the enemy
-                    </p>
-                    <h3 class="Blink">The cannon tower</h3>
-                    <p class="Blink">The cannon tower is a slow but heavy damage tower. It takes down strong foes with
-                        an area of damage but shoots with a slower firerate then other towers. Great for slow enemies.
-                    </p>
-                    <h3 class="Blink">The magic tower</h3>
-                    <p class="Blink">An medium damage and quite fast tower. The magic tower shoots bursts of magic energy to the enemies.
-                        It fires as fast as the archer tower but does more damage then the archer tower.This however does
-                        not make the archer tower useless. This tower might be stronger but it is also way pricier. 
-                    </p>
-                    <h3 class="Blink">Shockwave tower</h3>
-                    <p class="Blink pb-5">The shockwave tower is an extremely slow tower that does minimal damage. This tower stuns enemies in it's
-                        range, making them completely unable to move for a couple of seconds. This gives you more time to damage the enemies.      
-                    </p>
-                    <h2 class="Blink">My contribution to this project</h2>
-                    <p class="Blink">I designed the UI making clear for everyone what the game should look like.
-                        I also made a couple of the models for the enemy. You can find the models here:
-                    </p>
-                    <a href="Art.html" class="Blink pb-5">3D-Models</a>
-                    <p class="Blink">I also made the money system for the game.
-                        Making it so that money gets added and removed correctly.
-                        I made the health and progress bar making it easier for you to know how far you are in the level.
-                        It also shows you how much health you have left take.
-                        Another thing i made was the speed-up button.
-                        I had to make the speed-up button in a way that if you click the button the gameplay speeds up, and if you click it again
-                        the game goes to it's original speed. I coded and created these things in a span of about 3 weeks.
-                        In the 3,5 weeks we had for this project i also added this tab of the game to my website.
-                    </p>
-                    
-                    
-                    <a href="my_projects.html" class="Blink pb-5">Go back</a>
-                </div>
-            </div>
-        </div>
+<div class="page-header">
+  <a href="my_projects.html" class="back-link">◂ Back to projects</a>
+  <div class="eyebrow">▸ Record 004 · Tower defense · Archived</div>
+  <h1 class="page-title">Towaria</h1>
+  <p class="page-jp">トワリア</p>
+  <hr class="header-rule">
+</div>
+
+<div class="content">
+
+  <div class="block">
+    <div class="block-label">Overview</div>
+    <div class="block-title">What is Towaria?</div>
+    <p>A cute, fast-paced tower defense with a medieval voxel art style. Designed for people who want to kill time — accessible, level-based, and forgiving. Fail a wave? Restart it with your towers already placed.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-label">Mechanics</div>
+    <div class="block-title">How it plays</div>
+    <p>Survive waves of enemies using four tower types. Earn coins from defeated enemies and spend them on new towers between waves. Each wave resets on fail — no full restart.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-label">Towers</div>
+    <div class="block-title">The four towers</div>
+    <div class="tower-list">
+      <div class="tower-row">
+        <div class="tower-name">Archer</div>
+        <div class="tower-desc">Fast fire rate, low damage. Reliable against weak swarms.</div>
+      </div>
+      <div class="tower-row">
+        <div class="tower-name">Cannon</div>
+        <div class="tower-desc">Slow but heavy. Area damage, great against tanky enemies.</div>
+      </div>
+      <div class="tower-row">
+        <div class="tower-name">Magic</div>
+        <div class="tower-desc">Fast bursts, more damage than the archer — but pricier.</div>
+      </div>
+      <div class="tower-row">
+        <div class="tower-name">Shockwave</div>
+        <div class="tower-desc">Minimal damage, but stuns all enemies in range for a few seconds.</div>
+      </div>
     </div>
-        <script src="script.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-    <footer class="text-center py-4">
-        <p class="Blink">&copy; 2024 RubenStender | Portfolio</p>
-    </footer>
-    
-    </html>
-    
+  </div>
+
+  <div class="block">
+    <div class="block-label">Contribution</div>
+    <div class="block-title">My work</div>
+    <p>UI design, enemy 3D models, the money system, health and progress bar, and the speed-up toggle. Built over ~3 weeks.</p>
+    <a href="Art.html" class="inline-link">View 3D models ▸</a>
+  </div>
+
+</div>
+
+<footer>© 2024 Ruben Stender · Portfolio</footer>
+<script>
+  function tick() { document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8); }
+  setInterval(tick,1000); tick();
+</script>
+</body>
+</html>

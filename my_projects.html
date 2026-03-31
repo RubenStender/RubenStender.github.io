@@ -3,376 +3,239 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROJECT_LOG // RUBEN_STENDER</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <title>Projects — Ruben Stender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --green: #39ff14;
-      --green-dim: #86b441;
-      --green-dark: #1a3a0a;
-      --bg: #0a0f08;
-      --amber: #ffb300;
-      --red: #ff2244;
+      --bg:      #0d120b;
+      --border:  rgba(134,180,65,0.18);
+      --green:   #86b441;
+      --green-hi:#aad458;
+      --amber:   #c8960a;
+      --muted:   rgba(134,180,65,0.4);
+      --text:    rgba(134,180,65,0.8);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      background: var(--bg);
-      color: var(--green);
-      font-family: 'Share Tech Mono', monospace;
-      overflow-x: hidden;
-      cursor: crosshair;
-      min-height: 100vh;
+      background:var(--bg); color:var(--text);
+      font-family:'Share Tech Mono', monospace;
+      font-size:14px; line-height:1.7; min-height:100vh;
     }
-
-    /* ── NOISE ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9999; opacity: 0.4;
-    }
-
-    /* ── SCANLINES ── */
     body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px);
-      pointer-events: none; z-index: 9998;
-      animation: scanroll 12s linear infinite;
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+      pointer-events:none; z-index:9999;
     }
-    @keyframes scanroll { 0%{background-position:0 0} 100%{background-position:0 80px} }
-
-    .vignette {
-      position: fixed; inset: 0;
-      background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.75) 100%);
-      pointer-events: none; z-index: 9997;
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:44px;
+      background:rgba(13,18,11,0.92);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(6px);
     }
-
-    /* ── TOPBAR ── */
-    .topbar {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem; height: 42px;
-      border-bottom: 1px solid rgba(57,255,20,0.25);
-      background: rgba(10,15,8,0.92);
-      backdrop-filter: blur(4px);
-    }
-    .topbar-left { font-size: 0.65rem; opacity: 0.5; letter-spacing: 0.15em; }
-    .topbar-right { font-size: 0.65rem; opacity: 0.5; letter-spacing: 0.1em; }
-    #clock { color: var(--amber); }
-    .nav-links { display: flex; gap: 2rem; }
+    .nav-id { font-size:11px; letter-spacing:0.2em; color:var(--amber); }
+    .nav-links { display:flex; gap:2rem; }
     .nav-links a {
-      color: var(--green-dim); text-decoration: none;
-      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-      transition: color 0.15s, text-shadow 0.15s;
+      font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--muted); text-decoration:none; transition:color 0.15s;
     }
-    .nav-links a:hover { color: var(--green); text-shadow: 0 0 10px var(--green); }
+    .nav-links a:hover { color:var(--green-hi); }
+    #clock { font-size:11px; color:var(--muted); }
 
-    /* ── PAGE HEADER ── */
     .page-header {
-      padding: 100px 2rem 3rem;
-      max-width: 1100px;
-      margin: 0 auto;
+      max-width:1000px; margin:0 auto;
+      padding:100px 2.5rem 3rem;
     }
-    .signal-badge {
-      display: inline-block;
-      font-size: 0.6rem; letter-spacing: 0.3em; color: var(--amber);
-      border: 1px solid var(--amber); padding: 4px 14px;
-      margin-bottom: 1.5rem;
-      animation: flicker 4s infinite;
-    }
-    @keyframes flicker {
-      0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.4} 94%{opacity:1} 96%{opacity:0.7} 97%{opacity:1}
-    }
+    .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--amber); margin-bottom:1.25rem; }
     .page-title {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(2rem, 6vw, 4rem);
-      font-weight: 900;
-      letter-spacing: 0.1em;
-      color: var(--green);
-      text-shadow: 0 0 20px rgba(57,255,20,0.5), 0 0 60px rgba(57,255,20,0.15);
+      font-family:'Orbitron', monospace; font-weight:700;
+      font-size:clamp(2rem,6vw,3.5rem); color:var(--green-hi);
+      letter-spacing:0.05em; line-height:1.1;
     }
-    .page-subtitle {
-      font-size: 0.7rem; letter-spacing: 0.25em; opacity: 0.4; margin-top: 0.75rem;
-    }
-    .header-line {
-      margin-top: 2rem;
-      height: 1px;
-      background: linear-gradient(to right, rgba(57,255,20,0.5), transparent);
+    .page-sub { font-size:11px; letter-spacing:0.2em; color:var(--muted); margin-top:0.75rem; }
+    .header-rule { margin-top:2rem; border:none; border-top:1px solid var(--border); }
+
+    .grid {
+      max-width:1000px; margin:0 auto;
+      padding:2.5rem 2.5rem 6rem;
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+      gap:1px;
+      border-left:1px solid var(--border);
+      border-right:1px solid var(--border);
     }
 
-    /* ── GRID ── */
-    .projects-grid {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem 2rem 6rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
+    .card {
+      background:var(--bg);
+      border:1px solid var(--border);
+      overflow:hidden;
+      opacity:0; transform:translateY(12px);
+      animation:fadeUp 0.5s ease forwards;
+      transition:background 0.2s;
     }
+    .card:nth-child(1){animation-delay:0.05s}
+    .card:nth-child(2){animation-delay:0.12s}
+    .card:nth-child(3){animation-delay:0.19s}
+    .card:nth-child(4){animation-delay:0.26s}
+    .card:nth-child(5){animation-delay:0.33s}
+    @keyframes fadeUp { to { opacity:1; transform:none; } }
+    .card:hover { background:rgba(134,180,65,0.025); }
 
-    /* ── CARD ── */
-    .proj-card {
-      border: 1px solid rgba(57,255,20,0.2);
-      background: rgba(0,10,0,0.5);
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: cardIn 0.6s ease forwards;
-    }
-    .proj-card:hover {
-      border-color: rgba(57,255,20,0.65);
-      box-shadow: 0 0 30px rgba(57,255,20,0.1), inset 0 0 30px rgba(57,255,20,0.03);
-      transform: translateY(-3px);
-    }
-
-    /* staggered entrance */
-    .proj-card:nth-child(1) { animation-delay: 0.05s; }
-    .proj-card:nth-child(2) { animation-delay: 0.15s; }
-    .proj-card:nth-child(3) { animation-delay: 0.25s; }
-    .proj-card:nth-child(4) { animation-delay: 0.35s; }
-    .proj-card:nth-child(5) { animation-delay: 0.45s; }
-
-    @keyframes cardIn {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* corner decorations */
-    .proj-card::before, .proj-card::after {
-      content: '';
-      position: absolute;
-      width: 10px; height: 10px;
-      border-color: var(--green);
-      border-style: solid;
-      opacity: 0.5;
-      z-index: 2;
-      transition: opacity 0.2s;
-    }
-    .proj-card::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
-    .proj-card::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
-    .proj-card:hover::before,
-    .proj-card:hover::after { opacity: 1; }
-
-    /* image */
     .card-img-wrap {
-      position: relative;
-      overflow: hidden;
-      height: 180px;
-      background: #050d05;
+      position:relative; overflow:hidden; height:160px;
+      background:#050d05;
+      border-bottom:1px solid var(--border);
     }
     .card-img-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(0.7) brightness(0.85);
-      transition: filter 0.3s, transform 0.4s;
+      width:100%; height:100%; object-fit:cover; display:block;
+      filter:saturate(0.6) brightness(0.8);
+      transition:filter 0.3s, transform 0.4s;
     }
-    .proj-card:hover .card-img-wrap img {
-      filter: saturate(1.1) brightness(1);
-      transform: scale(1.04);
-    }
+    .card:hover .card-img-wrap img { filter:saturate(0.9) brightness(0.95); transform:scale(1.03); }
 
-    /* scanline overlay on image */
-    .card-img-wrap::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.15) 3px, rgba(0,0,0,0.15) 4px);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* image placeholder */
-    .img-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(57,255,20,0.02) 0px, rgba(57,255,20,0.02) 10px,
-        transparent 10px, transparent 20px
-      );
-      color: rgba(57,255,20,0.15);
-      font-family: 'Orbitron', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-    }
-
-    /* status dot */
     .card-status {
-      position: absolute; top: 10px; right: 12px;
-      z-index: 3;
-      display: flex; align-items: center; gap: 6px;
-      font-size: 0.5rem; letter-spacing: 0.2em;
-      color: var(--amber);
+      position:absolute; top:10px; right:10px; z-index:2;
+      display:flex; align-items:center; gap:5px;
+      font-size:10px; letter-spacing:0.15em; color:var(--muted);
     }
     .status-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 6px var(--green);
-      animation: blink-dot 2s ease-in-out infinite;
+      width:5px; height:5px; border-radius:50%;
+      background:var(--green); flex-shrink:0;
     }
-    .status-dot.amber { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
-    @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .status-dot.amber { background:var(--amber); }
 
-    /* card body */
-    .card-body {
-      padding: 1.25rem 1.25rem 1.5rem;
+    .img-placeholder {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(45deg, rgba(134,180,65,0.02) 0, rgba(134,180,65,0.02) 10px, transparent 10px, transparent 20px);
+      font-size:10px; letter-spacing:0.2em; color:rgba(134,180,65,0.15);
     }
-    .card-index {
-      font-size: 0.5rem; letter-spacing: 0.2em; opacity: 0.3;
-      margin-bottom: 0.5rem;
-    }
+
+    .card-body { padding:1.25rem 1.5rem 1.5rem; }
+    .card-meta { font-size:10px; letter-spacing:0.2em; color:var(--muted); margin-bottom:6px; }
     .card-title {
-      font-family: 'Orbitron', monospace;
-      font-size: 0.95rem; font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--green);
-      text-shadow: 0 0 10px rgba(57,255,20,0.3);
-      margin-bottom: 0.6rem;
+      font-family:'Orbitron', monospace; font-size:0.85rem; font-weight:700;
+      color:var(--green-hi); letter-spacing:0.08em; margin-bottom:8px;
     }
-    .card-desc {
-      font-size: 0.65rem;
-      line-height: 1.7;
-      opacity: 0.5;
-      margin-bottom: 1.25rem;
-    }
+    .card-desc { font-size:12px; color:var(--text); opacity:0.6; margin-bottom:1.25rem; line-height:1.6; }
     .card-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.6rem; letter-spacing: 0.25em;
-      color: var(--green); text-decoration: none;
-      border: 1px solid rgba(57,255,20,0.35);
-      padding: 6px 16px;
-      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--green); text-decoration:none;
+      border:1px solid var(--border); padding:6px 16px;
+      display:inline-block; transition:border-color 0.15s, color 0.15s;
     }
-    .card-link:hover {
-      background: rgba(57,255,20,0.08);
-      border-color: var(--green);
-      box-shadow: 0 0 12px rgba(57,255,20,0.2);
-      color: var(--green);
-    }
-    .card-link-arrow { animation: arrow-pulse 1.5s ease-in-out infinite; }
-    @keyframes arrow-pulse { 0%,100%{transform:translateX(0)} 50%{transform:translateX(3px)} }
+    .card-link:hover { border-color:var(--green); color:var(--green-hi); }
 
-    /* ── FOOTER ── */
     footer {
-      border-top: 1px solid rgba(57,255,20,0.15);
-      text-align: center; padding: 2rem;
-      font-size: 0.6rem; letter-spacing: 0.2em; opacity: 0.3;
+      text-align:center; padding:2rem; font-size:10px;
+      letter-spacing:0.2em; color:var(--muted); border-top:1px solid var(--border);
     }
   </style>
 </head>
 <body>
 
-<div class="vignette"></div>
+<nav>
+  <span class="nav-id">RS // PROJECT LOG</span>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="Art.html">Art</a>
+    <a href="World_Building.html">World</a>
+  </div>
+  <span id="clock">--:--:--</span>
+</nav>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-left">SYS::PROJECT_LOG &nbsp;|&nbsp; 5 ENTRIES FOUND</div>
-  <nav class="nav-links">
-    <a href="index.html">HOME</a>
-    <a href="Art.html">ART</a>
-    <a href="World_Building.html">WORLD</a>
-  </nav>
-  <div class="topbar-right" id="clock">--:--:--</div>
-</div>
-
-<!-- PAGE HEADER -->
 <div class="page-header">
-  <div class="signal-badge">▶ ACCESSING PROJECT DATABASE</div>
-  <h1 class="page-title">PROJECT<br>LOG</h1>
-  <p class="page-subtitle">GAME_SHOWCASE &nbsp;//&nbsp; RUBEN_STENDER &nbsp;//&nbsp; 5 RECORDS</p>
-  <div class="header-line"></div>
+  <div class="eyebrow">▸ 5 records found</div>
+  <h1 class="page-title">Project log</h1>
+  <p class="page-sub">Game showcase · Ruben Stender</p>
+  <hr class="header-rule">
 </div>
 
-<!-- CARDS -->
-<div class="projects-grid">
+<div class="grid">
 
-  <!-- Towaria -->
-  <div class="proj-card">
+  <div class="card">
     <div class="card-img-wrap">
-      <div class="card-status"><div class="status-dot"></div>ACTIVE</div>
-      <img src="Pictures/Tower_Defense_Thumbnail.png" alt="Towaria" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>NO_SIGNAL</div>'">
+      <div class="card-status"><div class="status-dot"></div>Active</div>
+      <img src="Pictures/Kamo_Action_Scene.png" alt="Kamo" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
     </div>
     <div class="card-body">
-      <div class="card-index">RECORD_001</div>
-      <div class="card-title">TOWARIA</div>
-      <div class="card-desc">A strategic tower defense — hold the line against relentless enemy waves.</div>
-      <a href="Towaria.html" class="card-link">OPEN FILE <span class="card-link-arrow">▶</span></a>
+      <div class="card-meta">Record 001 · Platformer</div>
+      <div class="card-title">Kamo クワック</div>
+      <p class="card-desc">Fast-paced platformer roguelike. You are Kamo — a samurai duck. Slash everything.</p>
+      <a href="Kamo.html" class="card-link">Open file ▸</a>
     </div>
   </div>
 
-  <!-- Kamo -->
-  <div class="proj-card">
+  <div class="card">
     <div class="card-img-wrap">
-      <div class="card-status"><div class="status-dot"></div>ACTIVE</div>
-      <img src="Pictures/Kamo_Action_Scene.png" alt="Kamo" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>NO_SIGNAL</div>'">
+      <div class="card-status"><div class="status-dot"></div>Active</div>
+      <img src="Pictures/Orey.png" alt="Orey" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
     </div>
     <div class="card-body">
-      <div class="card-index">RECORD_002</div>
-      <div class="card-title">KAMO クワック</div>
-      <div class="card-desc">Fast-paced platformer roguelike. You are Kamo — a samurai duck. Slash everything.</div>
-      <a href="Kamo.html" class="card-link">OPEN FILE <span class="card-link-arrow">▶</span></a>
+      <div class="card-meta">Record 002 · Runner</div>
+      <div class="card-title">Orey</div>
+      <p class="card-desc">Infinite runner — you're a rock fleeing from miners. Cute, relentless, addictive.</p>
     </div>
   </div>
 
-  <!-- Noodle Adventure -->
-  <div class="proj-card">
+  <div class="card">
     <div class="card-img-wrap">
-      <div class="card-status"><div class="status-dot amber"></div>ARCHIVED</div>
-      <img src="Pictures/Noodle_Adventure.png" alt="Noodle Adventure" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>NO_SIGNAL</div>'">
+      <div class="card-status"><div class="status-dot"></div>Active</div>
+      <img src="Pictures/Cadenza.png" alt="Cadenza" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
     </div>
     <div class="card-body">
-      <div class="card-index">RECORD_003</div>
-      <div class="card-title">NOODLE ADVENTURE</div>
-      <div class="card-desc">Classic jump-and-run demo set in a post-apocalyptic world. Run. Survive.</div>
-      <a href="Noodle_Adventure.html" class="card-link">OPEN FILE <span class="card-link-arrow">▶</span></a>
+      <div class="card-meta">Record 003 · Rhythm</div>
+      <div class="card-title">Cadenza</div>
+      <p class="card-desc">Walking sim meets rhythm game with a dark twist. Find the objects. Remember.</p>
+      <a href="Cadenza.html" class="card-link">Open file ▸</a>
     </div>
   </div>
 
-  <!-- Orey -->
-  <div class="proj-card">
+  <div class="card">
     <div class="card-img-wrap">
-      <div class="card-status"><div class="status-dot amber"></div>ARCHIVED</div>
-      <img src="Pictures/Orey.png" alt="Orey" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>NO_SIGNAL</div>'">
+      <div class="card-status"><div class="status-dot amber"></div>Archived</div>
+      <img src="Pictures/Tower_Defense_Thumbnail.png" alt="Towaria" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
     </div>
     <div class="card-body">
-      <div class="card-index">RECORD_004</div>
-      <div class="card-title">OREY</div>
-      <div class="card-desc">Infinite runner — you're a rock fleeing from miners. Cute, relentless, addictive.</div>
-      <a href="Orey.html" class="card-link">OPEN FILE <span class="card-link-arrow">▶</span></a>
+      <div class="card-meta">Record 004 · Tower defense</div>
+      <div class="card-title">Towaria</div>
+      <p class="card-desc">Strategic tower defense — hold the line against relentless enemy waves.</p>
+      <a href="Towaria.html" class="card-link">Open file ▸</a>
     </div>
   </div>
 
-  <!-- Cadenza -->
-  <div class="proj-card">
+  <div class="card">
     <div class="card-img-wrap">
-      <div class="card-status"><div class="status-dot"></div>ACTIVE</div>
-      <img src="Pictures/Cadenza.png" alt="Cadenza" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>NO_SIGNAL</div>'">
+      <div class="card-status"><div class="status-dot amber"></div>Archived</div>
+      <img src="Pictures/Noodle_Adventure.png" alt="Noodle Adventure" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
     </div>
     <div class="card-body">
-      <div class="card-index">RECORD_005</div>
-      <div class="card-title">CADENZA</div>
-      <div class="card-desc">Walking sim meets rhythm game with a dark twist. Find the objects. Remember.</div>
-      <a href="Cadenza.html" class="card-link">OPEN FILE <span class="card-link-arrow">▶</span></a>
+      <div class="card-meta">Record 005 · Platformer</div>
+      <div class="card-title">Noodle Adventure</div>
+      <p class="card-desc">Classic jump-and-run demo set in a post-apocalyptic world. Run. Survive.</p>
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-img-wrap">
+      <div class="card-status"><div class="status-dot amber"></div>IN DEVELOPMENT</div>
+      <img src="Pictures/RustbucketBanner.png" alt="Towaria" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">Record 006 · Rustbucket</div>
+      <div class="card-title">Rustbucket</div>
+      <p class="card-desc">PSX style horror game set in Lazuli National Park. Can you leave your past behind?</p>
+    </div>
+  </div>
+  
 </div>
 
-<footer>© 2024 RUBEN_STENDER &nbsp;|&nbsp; PORTFOLIO_OS &nbsp;|&nbsp; ALL SIGNALS RESERVED</footer>
+<footer>© 2024 Ruben Stender · Portfolio</footer>
 
 <script>
-  function updateClock() {
-    const now = new Date();
-    document.getElementById('clock').textContent = now.toTimeString().slice(0,8);
-  }
-  setInterval(updateClock, 1000);
-  updateClock();
+  function tick() { document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8); }
+  setInterval(tick,1000); tick();
 </script>
 </body>
 </html>

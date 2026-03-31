@@ -1,69 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<title>Ruben_Stender_Portfolio</title>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="intro.css">
-    <link rel="Intro_script" href="intro.js">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tales of the Damned — Ruben Stender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0d120b; --border:rgba(134,180,65,0.18);
+      --green:#86b441; --green-hi:#aad458;
+      --amber:#c8960a; --muted:rgba(134,180,65,0.4);
+      --text:rgba(134,180,65,0.8);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:var(--bg); color:var(--text);
+      font-family:'Share Tech Mono', monospace;
+      font-size:14px; line-height:1.7; min-height:100vh;
+    }
+    body::after {
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+      pointer-events:none; z-index:9999;
+    }
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:44px;
+      background:rgba(13,18,11,0.92);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(6px);
+    }
+    .nav-id { font-size:11px; letter-spacing:0.2em; color:var(--amber); }
+    .nav-links { display:flex; gap:2rem; }
+    .nav-links a {
+      font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--muted); text-decoration:none; transition:color 0.15s;
+    }
+    .nav-links a:hover { color:var(--green-hi); }
+    #clock { font-size:11px; color:var(--muted); }
 
-<body class="text-light">
-    <div class="crt">   
-        <div class="ProjectsLinks text-center p-2">
-            <div class="PaddingLinks px-6">
-                <a href="index.html" class="Blink">Home</a>
-                <a href="my_projects.html" class="Blink">My projects</a>
-                <a href="Art.html" class="Blink">Art</a>
-            </div>
-        </div>
-        <div class="IntroBlink">
-            <div class="container text-center mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <h1 class="Blink display-6">Tales of the damned</h1>
-                        <h2 class="Blink fs-5 pb-5">呪われた話</h2>
-                        <div class="card text-light border-0 shadow">
-                            <img src="/Pictures/No_Image.png" alt="Characters" class="card-img-top">
-                            <div class="Blink">
-                                <h5 class="card-title">My Characters</h5>
-                                <a href="/Downloadables/Character List_V2.pdf" class="Blink" download>Download Character List-V1.0</a>
-                            </div>
-                        </div>
-                        <p class="fs-7 pb-5"></p>
-                        <div class="card text-light border-0 shadow">
-                            <img src="/Pictures/No_Image.png" alt="Characters" class="card-img-top">
-                            <div class="Blink">
-                                <h5 class="card-title">Abilities</h5>
-                                <a href="Groups.html" class="Blink">Read more (Not working for now)</a>
-                            </div>
-                        </div>
-                        <p class="fs-7 pb-5"></p>
-                        <div class="card text-light border-0 shadow">
-                            <img src="/Pictures/Oc_Map_Cropped.png" alt="Characters" class="card-img-top">
-                            <div class="Blink">
-                                <h5 class="card-title">Maps</h5>
-                                <a href="Maps.html" class="Blink">Read more (Not working for now)</a>
-                            </div>
-                        </div>
-                        <p class="fs-7 pb-5"></p>
-                        <div class="card text-light border-0 shadow">
-                            <img src="/Pictures/Company_Collage.jpg" alt="Characters" class="card-img-top">
-                            <div class="Blink">
-                                <h5 class="card-title">Companies</h5>
-                                <a href="Companies.html" class="Blink">Read more (Not working for now)</a>
-                            </div>
-                        </div>
-                        <p class="fs-7 pb-5"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    /* ── HERO ── */
+    .page-header {
+      max-width:800px; margin:0 auto;
+      padding:110px 2.5rem 3rem;
+    }
+    .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--amber); margin-bottom:1.25rem; }
+    .page-title {
+      font-family:'Orbitron', monospace; font-weight:700;
+      font-size:clamp(2rem,6vw,3.8rem); color:var(--green-hi);
+      letter-spacing:0.05em; line-height:1.1;
+    }
+    .page-jp { font-size:13px; letter-spacing:0.35em; color:var(--muted); margin-top:0.6rem; }
+    .page-desc {
+      margin-top:1.5rem; max-width:500px; font-size:13px;
+      border-left:2px solid var(--border); padding-left:1.2rem;
+      opacity:0.7;
+    }
+    .header-rule { margin-top:2.5rem; border:none; border-top:1px solid var(--border); }
+
+    /* ── GRID ── */
+    .grid {
+      max-width:800px; margin:0 auto;
+      padding:2.5rem 2.5rem 6rem;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap:1px;
+      border-left:1px solid var(--border);
+      border-right:1px solid var(--border);
+    }
+
+    /* ── CARD ── */
+    .card {
+      background:var(--bg); border:1px solid var(--border);
+      overflow:hidden; transition:background 0.2s;
+      opacity:0; transform:translateY(12px);
+      animation:fadeUp 0.5s ease forwards;
+      position:relative;
+    }
+    .card:nth-child(1){animation-delay:0.05s}
+    .card:nth-child(2){animation-delay:0.12s}
+    .card:nth-child(3){animation-delay:0.19s}
+    .card:nth-child(4){animation-delay:0.26s}
+    @keyframes fadeUp { to { opacity:1; transform:none; } }
+    .card:hover { background:rgba(134,180,65,0.025); }
+
+    /* lock overlay for WIP cards */
+    .card.wip { opacity:0; animation:fadeUp 0.5s ease forwards; }
+    .card.wip .card-img-wrap img { filter:saturate(0) brightness(0.5); }
+    .card.wip .card-body { opacity:0.45; }
+    .wip-badge {
+      position:absolute; top:10px; left:10px; z-index:2;
+      font-size:9px; letter-spacing:0.2em;
+      color:var(--amber); border:1px solid var(--amber);
+      padding:3px 10px; background:rgba(13,18,11,0.85);
+    }
+
+    .card-img-wrap {
+      overflow:hidden; height:180px; background:#050d05;
+      border-bottom:1px solid var(--border);
+    }
+    .card-img-wrap img {
+      width:100%; height:100%; object-fit:cover; display:block;
+      filter:saturate(0.55) brightness(0.75);
+      transition:filter 0.3s, transform 0.4s;
+    }
+    .card:not(.wip):hover .card-img-wrap img {
+      filter:saturate(0.9) brightness(0.95); transform:scale(1.03);
+    }
+    .img-placeholder {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(45deg, rgba(134,180,65,0.02) 0, rgba(134,180,65,0.02) 10px, transparent 10px, transparent 20px);
+      font-size:10px; letter-spacing:0.2em; color:rgba(134,180,65,0.12);
+    }
+
+    .card-body { padding:1.25rem 1.5rem 1.5rem; }
+    .card-meta { font-size:10px; letter-spacing:0.2em; color:var(--muted); margin-bottom:6px; }
+    .card-title {
+      font-family:'Orbitron', monospace; font-size:0.85rem; font-weight:700;
+      color:var(--green-hi); letter-spacing:0.08em; margin-bottom:10px;
+    }
+    .card-link {
+      font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--green); text-decoration:none;
+      border:1px solid var(--border); padding:6px 16px;
+      display:inline-block; transition:border-color 0.15s, color 0.15s;
+    }
+    .card-link:hover { border-color:var(--green); color:var(--green-hi); }
+    .card-link.disabled {
+      color:var(--muted); border-color:rgba(134,180,65,0.08);
+      pointer-events:none; cursor:default;
+    }
+
+    footer {
+      text-align:center; padding:2rem; font-size:10px;
+      letter-spacing:0.2em; color:var(--muted); border-top:1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-id">RS // WORLD BUILDING</span>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="my_projects.html">Projects</a>
+    <a href="Art.html">Art</a>
+  </div>
+  <span id="clock">--:--:--</span>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">▸ Universe file — Tales of the Damned</div>
+  <h1 class="page-title">Tales of<br>the Damned</h1>
+  <p class="page-jp">呪われた話</p>
+  <p class="page-desc">An analog-futuristic universe of characters, factions, and worlds. Explore the lore, maps, and powers that shape this world.</p>
+  <hr class="header-rule">
+</div>
+
+<div class="grid">
+
+  <!-- Characters -->
+  <div class="card">
+    <div class="card-img-wrap">
+      <div class="img-placeholder">NO IMAGE</div>
     </div>
-    </body>
-    <footer class="text-center py-4">
-        <p class="Blink">&copy; 2024 RubenStender | Portfolio</p>
-    </footer>
-    </html>
-    
+    <div class="card-body">
+      <div class="card-meta">Archive · Characters</div>
+      <div class="card-title">My characters</div>
+      <a href="Downloadables/Character List_V2.pdf" download class="card-link">Download list ▸</a>
+    </div>
+  </div>
+
+  <!-- Abilities -->
+  <div class="card wip">
+    <div class="wip-badge">OFFLINE</div>
+    <div class="card-img-wrap">
+      <div class="img-placeholder">NO IMAGE</div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">Archive · Abilities</div>
+      <div class="card-title">Abilities</div>
+      <span class="card-link disabled">Coming soon</span>
+    </div>
+  </div>
+
+  <!-- Maps -->
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="Pictures/Oc_Map_Cropped.png" alt="Map" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO IMAGE</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">Archive · Geography</div>
+      <div class="card-title">Maps</div>
+      <span class="card-link disabled">Coming soon</span>
+    </div>
+  </div>
+
+  <!-- Companies -->
+  <div class="card wip">
+    <div class="wip-badge">OFFLINE</div>
+    <div class="card-img-wrap">
+      <img src="Pictures/Company_Collage.jpg" alt="Companies" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO IMAGE</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">Archive · Factions</div>
+      <div class="card-title">Companies</div>
+      <span class="card-link disabled">Coming soon</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>© 2024 Ruben Stender · Portfolio</footer>
+
+<script>
+  function tick() { document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8); }
+  setInterval(tick,1000); tick();
+</script>
+</body>
+</html>

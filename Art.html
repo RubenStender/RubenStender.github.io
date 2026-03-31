@@ -1,94 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Game Showcase | Portfolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="intro.css">
-    <link rel="Intro_script" href="intro.js">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Gallery — Ruben Stender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0d120b; --border:rgba(134,180,65,0.18);
+      --green:#86b441; --green-hi:#aad458;
+      --amber:#c8960a; --muted:rgba(134,180,65,0.4);
+      --text:rgba(134,180,65,0.8);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:var(--bg); color:var(--text);
+      font-family:'Share Tech Mono', monospace;
+      font-size:14px; line-height:1.7; min-height:100vh;
+    }
+    body::after {
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+      pointer-events:none; z-index:9999;
+    }
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:44px;
+      background:rgba(13,18,11,0.92);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(6px);
+    }
+    .nav-id { font-size:11px; letter-spacing:0.2em; color:var(--amber); }
+    .nav-links { display:flex; gap:2rem; }
+    .nav-links a {
+      font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--muted); text-decoration:none; transition:color 0.15s;
+    }
+    .nav-links a:hover { color:var(--green-hi); }
+    #clock { font-size:11px; color:var(--muted); }
+    .page-header { max-width:1000px; margin:0 auto; padding:100px 2.5rem 3rem; }
+    .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--amber); margin-bottom:1.25rem; }
+    .page-title {
+      font-family:'Orbitron', monospace; font-weight:700;
+      font-size:clamp(2rem,6vw,3.5rem); color:var(--green-hi);
+      letter-spacing:0.05em; line-height:1.1;
+    }
+    .page-sub { font-size:11px; letter-spacing:0.2em; color:var(--muted); margin-top:0.75rem; }
+    .header-rule { margin-top:2rem; border:none; border-top:1px solid var(--border); }
+    .grid {
+      max-width:1000px; margin:0 auto;
+      padding:2.5rem 2.5rem 6rem;
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+      gap:1px;
+      border-left:1px solid var(--border);
+      border-right:1px solid var(--border);
+    }
+    .card {
+      background:var(--bg); border:1px solid var(--border);
+      overflow:hidden; transition:background 0.2s;
+      opacity:0; transform:translateY(12px);
+      animation:fadeUp 0.5s ease forwards;
+    }
+    .card:nth-child(1){animation-delay:0.05s} .card:nth-child(2){animation-delay:0.1s}
+    .card:nth-child(3){animation-delay:0.15s} .card:nth-child(4){animation-delay:0.2s}
+    .card:nth-child(5){animation-delay:0.25s} .card:nth-child(6){animation-delay:0.3s}
+    @keyframes fadeUp { to { opacity:1; transform:none; } }
+    .card:hover { background:rgba(134,180,65,0.025); }
+    .card-img-wrap {
+      overflow:hidden; height:200px; background:#050d05;
+      border-bottom:1px solid var(--border);
+    }
+    .card-img-wrap img {
+      width:100%; height:100%; object-fit:cover; display:block;
+      filter:saturate(0.6) brightness(0.8);
+      transition:filter 0.3s, transform 0.4s;
+    }
+    .card:hover .card-img-wrap img { filter:saturate(0.9) brightness(0.95); transform:scale(1.03); }
+    .img-placeholder {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(45deg, rgba(134,180,65,0.02) 0, rgba(134,180,65,0.02) 10px, transparent 10px, transparent 20px);
+      font-size:10px; letter-spacing:0.2em; color:rgba(134,180,65,0.15);
+    }
+    .card-body { padding:1.25rem 1.5rem 1.5rem; }
+    .card-meta { font-size:10px; letter-spacing:0.2em; color:var(--muted); margin-bottom:6px; }
+    .card-title {
+      font-family:'Orbitron', monospace; font-size:0.85rem; font-weight:700;
+      color:var(--green-hi); letter-spacing:0.08em; margin-bottom:6px;
+    }
+    .card-desc { font-size:12px; color:var(--text); opacity:0.6; line-height:1.6; }
+    footer {
+      text-align:center; padding:2rem; font-size:10px;
+      letter-spacing:0.2em; color:var(--muted); border-top:1px solid var(--border);
+    }
+  </style>
 </head>
+<body>
+<nav>
+  <span class="nav-id">RS // ART GALLERY</span>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="my_projects.html">Projects</a>
+    <a href="World_Building.html">World</a>
+  </div>
+  <span id="clock">--:--:--</span>
+</nav>
 
-<body class="text-light">
-    <div class="crt">   
-        <header class="text-center py-3">
-            <h1 class="Blink">Art Gallery</h1>
-            <nav class="p-2">
-                <a href="index.html" class="Blink">Home</a>
-                <a href="my_projects.html" class="Blink">My Projects</a>
-                <a href="World_Building.html" class="Blink">World Building</a>
-            </nav>
-        </header>
-        
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-4 mb-4">
-                    <div class="card text-light border-0 shadow">
-                        <img src="/Pictures/Art/Goblin.png" alt="Goblin" class="card-img-top">
-                        <div class="Blink">
-                            <h5 class="card-title">Goblin</h5>
-                            <p class="card-text">A small goblin model that i made for towaria</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 mb-4">
-                    <div class="card text-light border-0 shadow">
-                        <img src="/Pictures/Art/Big_Goblin.png" alt="Ogre" class="card-img-top">
-                        <div class="Blink">
-                            <h5 class="card-title">Ogre</h5>
-                            <p class="card-text">A Ogre model i made for towaria</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 mb-4">
-                    <div class="card text-light border-0 shadow">
-                        <img src="/Pictures/Art/Dragon.png" alt="Dragon" class="card-img-top">
-                        <div class="Blink">
-                            <h5 class="card-title">Dragon</h5>
-                            <p class="card-text">A dragon model i made for towaria</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card text-light border-0 shadow">
-                        <img src="/Pictures/Art/Traveler.png" alt="Traveler" class="card-img-top">
-                        <div class="Blink">
-                            <h5 class="card-title">Traveler Beta-Sprite</h5>
-                            <p class="card-text">A very early concept for a character running animation</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card text-light border-0 shadow">
-                        <img src="/Pictures/Art/Noodle_Sprites.png" alt="Platformer Game" class="card-img-top">
-                        <div class="Blink">
-                            <h5 class="card-title">Noodle's spritesheet</h5>
-                            <p class="card-text">The full spritesheet of my demo game noodle adventure</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card text-light border-0 shadow">
-                        <img src="/Pictures/Art/Kamo-Sprites_1.png" alt="Platformer Game" class="card-img-top">
-                        <div class="Blink">
-                            <h5 class="card-title">Kamo's level spritesheet</h5>
-                            <p class="card-text">The level spritesheet of a project i made with a group</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="page-header">
+  <div class="eyebrow">▸ 6 pieces found</div>
+  <h1 class="page-title">Art gallery</h1>
+  <p class="page-sub">Models & sprites · Ruben Stender</p>
+  <hr class="header-rule">
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="Pictures/Art/Goblin.png" alt="Goblin" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
     </div>
-        
-        <footer class="text-center py-4">
-            <p class="Blink">&copy; 2024 RubenStender | Portfolio</p>
-        </footer>
-        
-        <script src="script.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-    
-    </html>
-    
+    <div class="card-body">
+      <div class="card-meta">3D Model · Towaria</div>
+      <div class="card-title">Goblin</div>
+      <p class="card-desc">A small goblin model made for Towaria.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="Pictures/Art/Big_Goblin.png" alt="Ogre" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">3D Model · Towaria</div>
+      <div class="card-title">Ogre</div>
+      <p class="card-desc">An ogre model made for Towaria.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="Pictures/Art/Dragon.png" alt="Dragon" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">3D Model · Towaria</div>
+      <div class="card-title">Dragon</div>
+      <p class="card-desc">A dragon model made for Towaria.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="Pictures/Art/Traveler.png" alt="Traveler" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">Sprite · Early concept</div>
+      <div class="card-title">Traveler beta sprite</div>
+      <p class="card-desc">Early concept for a character running animation.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="Pictures/Art/Noodle_Sprites.png" alt="Noodle spritesheet" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">Spritesheet · Noodle Adventure</div>
+      <div class="card-title">Noodle's spritesheet</div>
+      <p class="card-desc">Full spritesheet for Noodle Adventure.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="Pictures/Art/Kamo-Sprites_1.png" alt="Kamo spritesheet" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO SIGNAL</div>'">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">Spritesheet · Kamo</div>
+      <div class="card-title">Kamo's level spritesheet</div>
+      <p class="card-desc">Level spritesheet from a group project.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>© 2024 Ruben Stender · Portfolio</footer>
+<script>
+  function tick() { document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8); }
+  setInterval(tick,1000); tick();
+</script>
+</body>
+</html>
