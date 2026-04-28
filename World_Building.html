@@ -40,10 +40,21 @@
     .nav-links a:hover { color:var(--green-hi); }
     #clock { font-size:11px; color:var(--muted); }
 
+    /* ── PAGE SHELL ── */
+    .page-shell {
+      display: flex;
+      align-items: flex-start;
+    }
+    .page-main {
+      flex: 1;
+      min-width: 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
     /* ── HERO ── */
     .page-header {
-      max-width:800px; margin:0 auto;
-      padding:110px 2.5rem 3rem;
+      padding: 110px 2.5rem 3rem;
     }
     .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--amber); margin-bottom:1.25rem; }
     .page-title {
@@ -61,10 +72,9 @@
 
     /* ── GRID ── */
     .grid {
-      max-width:800px; margin:0 auto;
-      padding:2.5rem 2.5rem 6rem;
+      padding: 2.5rem 2.5rem 6rem;
       display:grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap:1px;
       border-left:1px solid var(--border);
       border-right:1px solid var(--border);
@@ -85,8 +95,6 @@
     @keyframes fadeUp { to { opacity:1; transform:none; } }
     .card:hover { background:rgba(134,180,65,0.025); }
 
-    /* lock overlay for WIP cards */
-    .card.wip { opacity:0; animation:fadeUp 0.5s ease forwards; }
     .card.wip .card-img-wrap img { filter:saturate(0) brightness(0.5); }
     .card.wip .card-body { opacity:0.45; }
     .wip-badge {
@@ -133,6 +141,123 @@
       pointer-events:none; cursor:default;
     }
 
+    /* ── SIDEBAR AD ── */
+    .ad-sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      position: fixed;
+      top: 60px;
+      right: 2rem;
+      padding: 0;
+    }
+    .ad-corner {
+      font-size: 8px; letter-spacing: 0.12em;
+      color: rgba(200,150,10,0.45); text-align: center;
+      padding: 3px 0; font-family: 'Share Tech Mono', monospace;
+    }
+    .ad-panel {
+      width: 100%;
+      background: #e8d5a0;
+      border: 2px solid #c8960a;
+      overflow: hidden;
+      position: relative;
+      animation: adFlicker 9s infinite;
+    }
+    .ad-panel::before {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 3px);
+      pointer-events: none; z-index: 10;
+    }
+    @keyframes adFlicker {
+      0%,95%,100%{ opacity:1; }
+      96%{ opacity:0.8; }
+      97%{ opacity:1; }
+      98.5%{ opacity:0.88; }
+      99%{ opacity:1; }
+    }
+    .ad-header {
+      background: #b8300a;
+      padding: 7px 8px 6px;
+      text-align: center;
+    }
+    .ad-header-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 20px; font-weight: 700;
+      color: #f5ddb0;
+      letter-spacing: 0.06em; line-height: 1.15;
+      text-shadow: 1px 1px 0 #6a1a04, 2px 2px 0 #6a1a04;
+    }
+    .ad-img-section {
+      background: #ddc880;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      min-height: 200px;
+      padding: 10px 0 0;
+      overflow: hidden;
+    }
+    .ad-img-section img {
+      width: 150px;
+      display: block;
+      position: relative;
+      z-index: 2;
+      filter: saturate(0.9) contrast(1.05) drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
+    }
+    .ad-bubble {
+      position: absolute;
+      top: 10px; right: 6px;
+      width: 62px; height: 62px;
+      background: #8b2020;
+      border-radius: 50%;
+      border: 2px solid #c84040;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6px;
+      z-index: 3;
+    }
+    .ad-bubble span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 7.5px; color: #f5c0c0; line-height: 1.25;
+    }
+    .ad-body {
+      background: #e8d5a0;
+      padding: 8px 10px 4px;
+      border-top: 2px solid #c8960a;
+    }
+    .ad-features {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; color: #3a1a0a; line-height: 1.7;
+    }
+    .ad-features div::before { content: '▸ '; color: #8b2020; }
+    .ad-price-row {
+      margin: 8px -10px 0;
+      background: #c8960a;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #8b6500;
+    }
+    .ad-now {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 8px; color: #1a0a0a; letter-spacing: 0.1em;
+    }
+    .ad-price-num {
+      font-family: 'Orbitron', monospace;
+      font-size: 16px; font-weight: 700; color: #1a0a0a;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+    }
+    .ad-footer {
+      background: #b8300a;
+      padding: 5px 8px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .ad-footer-py { font-size: 14px; line-height: 1; }
+    .ad-footer-txt {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 7.5px; color: #f5ddb0; line-height: 1.3;
+    }
+
     footer {
       text-align:center; padding:2rem; font-size:10px;
       letter-spacing:0.2em; color:var(--muted); border-top:1px solid var(--border);
@@ -151,68 +276,105 @@
   <span id="clock">--:--:--</span>
 </nav>
 
-<div class="page-header">
-  <div class="eyebrow">▸ Universe file — Tales of the Damned</div>
-  <h1 class="page-title">Tales of<br>the Damned</h1>
-  <p class="page-jp">呪われた話</p>
-  <p class="page-desc">An analog-futuristic universe of characters, factions, and worlds. Explore the lore, maps, and powers that shape this world.</p>
-  <hr class="header-rule">
-</div>
+<div class="page-shell">
+  <div class="page-main">
 
-<div class="grid">
-
-  <!-- Characters -->
-  <div class="card">
-    <div class="card-img-wrap">
-      <div class="img-placeholder">NO IMAGE</div>
+    <div class="page-header">
+      <div class="eyebrow">▸ Universe file — Tales of the Damned</div>
+      <h1 class="page-title">Tales of<br>the Damned</h1>
+      <p class="page-jp">呪われた話</p>
+      <p class="page-desc">An analog-futuristic universe of characters, factions, and worlds. Explore the lore, maps, and powers that shape this world.</p>
+      <hr class="header-rule">
     </div>
-    <div class="card-body">
-      <div class="card-meta">Archive · Characters</div>
-      <div class="card-title">My characters</div>
-      <a href="Downloadables/Character List_V2.pdf" download class="card-link">Download list ▸</a>
+
+    <div class="grid">
+
+      <!-- Characters -->
+      <div class="card">
+        <div class="card-img-wrap">
+          <div class="img-placeholder">NO IMAGE</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">Archive · Characters</div>
+          <div class="card-title">My characters</div>
+          <a href="Downloadables/Character List_V2.pdf" download class="card-link">Download list ▸</a>
+        </div>
+      </div>
+
+      <!-- Abilities -->
+      <div class="card wip">
+        <div class="wip-badge">OFFLINE</div>
+        <div class="card-img-wrap">
+          <div class="img-placeholder">NO IMAGE</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">Archive · Abilities</div>
+          <div class="card-title">Abilities</div>
+          <span class="card-link disabled">Coming soon</span>
+        </div>
+      </div>
+
+      <!-- Maps -->
+      <div class="card wip">
+        <div class="wip-badge">OFFLINE</div>
+        <div class="card-img-wrap">
+          <img src="Pictures/Oc_Map_Cropped.png" alt="Map" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO IMAGE</div>'">
+        </div>
+        <div class="card-body">
+          <div class="card-meta">Archive · Geography</div>
+          <div class="card-title">Maps</div>
+          <span class="card-link disabled">Coming soon</span>
+        </div>
+      </div>
+
+      <!-- Companies -->
+      <div class="card wip">
+        <div class="wip-badge">OFFLINE</div>
+        <div class="card-img-wrap">
+          <img src="Pictures/Company_Collage.jpg" alt="Companies" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO IMAGE</div>'">
+        </div>
+        <div class="card-body">
+          <div class="card-meta">Archive · Factions</div>
+          <div class="card-title">Companies</div>
+          <span class="card-link disabled">Coming soon</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /page-main -->
+
+  <!-- ── MANTELA 3000 AD ── -->
+  <div class="ad-sidebar">
+    <div class="ad-corner">▸ SPONSORED</div>
+    <div class="ad-panel">
+      <div class="ad-header">
+        <div class="ad-header-title">MANTELA<br>3000!!!</div>
+      </div>
+      <div class="ad-img-section">
+        <div class="ad-bubble">
+          <span>it even connects to the internet!!!</span>
+        </div>
+        <img src="Pictures/Mantela_3000.png" alt="Mantela 3000">
+      </div>
+      <div class="ad-body">
+        <div class="ad-features">
+          <div>internet access</div>
+          <div>video playback</div>
+          <div>full keypad</div>
+        </div>
+        <div class="ad-price-row">
+          <span class="ad-now">NOW FOR</span>
+          <span class="ad-price-num">₱160,99-</span>
+        </div>
+      </div>
+      <div class="ad-footer">
+        <span class="ad-footer-py">🐍</span>
+        <span class="ad-footer-txt">built-in python<br>coding tool !!!</span>
+      </div>
     </div>
   </div>
 
-  <!-- Abilities -->
-  <div class="card wip">
-    <div class="wip-badge">OFFLINE</div>
-    <div class="card-img-wrap">
-      <div class="img-placeholder">NO IMAGE</div>
-    </div>
-    <div class="card-body">
-      <div class="card-meta">Archive · Abilities</div>
-      <div class="card-title">Abilities</div>
-      <span class="card-link disabled">Coming soon</span>
-    </div>
-  </div>
-
-  <!-- Maps -->
-  <div class="card wip">
-    <div class="wip-badge">OFFLINE</div>
-    <div class="card-img-wrap">
-      <img src="Pictures/Oc_Map_Cropped.png" alt="Map" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO IMAGE</div>'">
-    </div>
-    <div class="card-body">
-      <div class="card-meta">Archive · Geography</div>
-      <div class="card-title">Maps</div>
-      <span class="card-link disabled">Coming soon</span>
-    </div>
-  </div>
-
-  <!-- Companies -->
-  <div class="card wip">
-    <div class="wip-badge">OFFLINE</div>
-    <div class="card-img-wrap">
-      <img src="Pictures/Company_Collage.jpg" alt="Companies" onerror="this.outerHTML='<div class=\'img-placeholder\'>NO IMAGE</div>'">
-    </div>
-    <div class="card-body">
-      <div class="card-meta">Archive · Factions</div>
-      <div class="card-title">Companies</div>
-      <span class="card-link disabled">Coming soon</span>
-    </div>
-  </div>
-
-</div>
+</div><!-- /page-shell -->
 
 <footer>© 2024 Ruben Stender · Portfolio</footer>
 
