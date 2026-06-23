@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estrellarse — Ruben Stender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0d120b; --border:rgba(134,180,65,0.18);
+      --green:#86b441; --green-hi:#aad458;
+      --amber:#c8960a; --muted:rgba(134,180,65,0.4);
+      --text:rgba(134,180,65,0.8);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:var(--bg); color:var(--text);
+      font-family:'Share Tech Mono', monospace;
+      font-size:14px; line-height:1.7; min-height:100vh;
+    }
+    body::after {
+      content:''; position:fixed; inset:0;
+      background:repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+      pointer-events:none; z-index:9999;
+    }
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:44px;
+      background:rgba(13,18,11,0.92);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(6px);
+    }
+    .nav-id { font-size:11px; letter-spacing:0.2em; color:var(--amber); }
+    .nav-links { display:flex; gap:2rem; }
+    .nav-links a {
+      font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--muted); text-decoration:none; transition:color 0.15s;
+    }
+    .nav-links a:hover { color:var(--green-hi); }
+    #clock { font-size:11px; color:var(--muted); }
+    .page-header { max-width:700px; margin:0 auto; padding:100px 2.5rem 3rem; }
+    .back-link {
+      font-size:11px; letter-spacing:0.2em; color:var(--muted);
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      margin-bottom:2rem; transition:color 0.15s;
+    }
+    .back-link:hover { color:var(--green-hi); }
+    .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--amber); margin-bottom:1.25rem; }
+    .page-title {
+      font-family:'Orbitron', monospace; font-weight:700;
+      font-size:clamp(2rem,6vw,3.5rem); color:var(--green-hi);
+      letter-spacing:0.05em; line-height:1.1;
+    }
+    .page-jp { font-size:13px; letter-spacing:0.3em; color:var(--muted); margin-top:0.5rem; }
+    .header-rule { margin-top:2rem; border:none; border-top:1px solid var(--border); }
+    .content { max-width:700px; margin:0 auto; padding:3rem 2.5rem 6rem; }
+    .block { margin-bottom:3rem; }
+    .block-label { font-size:10px; letter-spacing:0.3em; color:var(--amber); margin-bottom:0.5rem; }
+    .block-title {
+      font-family:'Orbitron', monospace; font-size:0.9rem; font-weight:700;
+      color:var(--green-hi); letter-spacing:0.1em; margin-bottom:1rem;
+    }
+    p { font-size:13px; color:var(--text); opacity:0.8; margin-bottom:1rem; }
+
+    .team-logo-wrap {
+      display:flex; align-items:center; gap:1.5rem;
+      margin-bottom:1.25rem;
+    }
+    .team-logo {
+      width:72px; height:72px;
+      border:1px solid var(--border);
+      object-fit:contain;
+      background:rgba(134,180,65,0.04);
+      padding:6px;
+      flex-shrink:0;
+      filter: brightness(0.95) sepia(0.15) hue-rotate(50deg);
+    }
+    .team-logo-fallback {
+      width:72px; height:72px; flex-shrink:0;
+      border:1px dashed var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:9px; letter-spacing:0.15em; color:var(--muted);
+      text-align:center; line-height:1.4;
+    }
+
+    .char-list { border:1px solid var(--border); margin-bottom:2rem; }
+    .char-row {
+      display:flex; gap:1.5rem; align-items:flex-start;
+      padding:1rem 1.5rem; border-bottom:1px solid var(--border);
+    }
+    .char-row:last-child { border-bottom:none; }
+    .char-name {
+      font-family:'Orbitron', monospace; font-size:0.75rem; font-weight:700;
+      color:var(--green-hi); width:80px; flex-shrink:0; padding-top:2px;
+    }
+    .char-desc { font-size:12px; opacity:0.6; }
+    .inline-link {
+      font-size:11px; letter-spacing:0.2em; color:var(--green);
+      text-decoration:none; border:1px solid var(--border); padding:6px 16px;
+      display:inline-block; transition:border-color 0.15s, color 0.15s;
+      margin-right:1rem; margin-top:0.5rem;
+      background:none; cursor:pointer; font-family:'Share Tech Mono', monospace;
+    }
+    .inline-link:hover { border-color:var(--green); color:var(--green-hi); }
+    footer {
+      text-align:center; padding:2rem; font-size:10px;
+      letter-spacing:0.2em; color:var(--muted); border-top:1px solid var(--border);
+    }
+
+    /* ── Modals ── */
+    .modal-overlay {
+      display:none; position:fixed; inset:0; z-index:10000;
+      background:rgba(0,0,0,0.82);
+      align-items:center; justify-content:center;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal-box {
+      background:var(--bg); border:1px solid rgba(134,180,65,0.3);
+      width:min(640px,94vw);
+    }
+    .modal-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 16px; border-bottom:1px solid var(--border);
+    }
+    .modal-title {
+      font-family:'Orbitron', monospace; font-size:12px; font-weight:700;
+      color:var(--green-hi); letter-spacing:0.15em;
+    }
+    .modal-close {
+      background:none; border:none; cursor:pointer;
+      color:var(--muted); font-size:16px; padding:2px 6px; transition:color 0.15s;
+      font-family:'Share Tech Mono', monospace;
+    }
+    .modal-close:hover { color:var(--green-hi); }
+    .slide-viewport {
+      width:100%; aspect-ratio:16/9; background:#080d07;
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
+    }
+    .slide { display:none; width:100%; height:100%; align-items:center; justify-content:center; }
+    .slide.active { display:flex; }
+    .slide img { max-width:100%; max-height:100%; object-fit:contain; }
+    .modal-footer {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 16px; border-top:1px solid var(--border);
+    }
+    .slide-counter { font-size:10px; letter-spacing:0.2em; color:var(--muted); }
+    .slide-dots { display:flex; gap:8px; align-items:center; }
+    .dot {
+      width:6px; height:6px; border:1px solid rgba(134,180,65,0.35);
+      background:transparent; cursor:pointer; transition:background 0.15s;
+    }
+    .dot.active { background:var(--green); }
+    .nav-btns { display:flex; gap:8px; }
+    .nav-btn {
+      background:none; border:1px solid var(--border); color:var(--muted);
+      cursor:pointer; font-family:'Share Tech Mono', monospace;
+      font-size:11px; letter-spacing:0.15em; padding:4px 12px;
+      transition:border-color 0.15s, color 0.15s;
+    }
+    .nav-btn:hover { border-color:var(--green); color:var(--green-hi); }
+    .nav-btn:disabled { opacity:0.25; cursor:default; }
+  </style>
+</head>
+<body>
+<nav>
+  <span class="nav-id">RS // ESTRELLARSE</span>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="my_projects.html">Projects</a>
+    <a href="Art.html">Art</a>
+  </div>
+  <span id="clock">--:--:--</span>
+</nav>
+
+<div class="page-header">
+  <a href="my_projects.html" class="back-link">◂ Back to projects</a>
+  <div class="eyebrow">▸ Record 007 · Roguelite / Movement shooter · Active</div>
+  <h1 class="page-title">Estrellarse</h1>
+  <p class="page-jp">げきとつ</p>
+  <hr class="header-rule">
+</div>
+
+<div class="content">
+  <div class="block">
+    <div class="block-label">TOTD</div>
+    <div class="block-title">What is TOTD?</div>
+    <div class="team-logo-wrap">
+      <img
+        class="team-logo"
+        src="Pictures/TOTD_Logo.png"
+        alt="TOTD logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      >
+      <div class="team-logo-fallback" style="display:none;">LOGO<br>HERE</div>
+    </div>
+    <p>'TOTD' is a universe i'm building in a worldbuilding project i'm working on. It's set in 2045 and old tech meets new tech. Back in 2026,
+      a bio-company called Skoptec made a project that would change the rules of the universe forever.
+    </p>
+    <a href="World_Building.html" class="inline-link">My worldbuilding project!!</a>
+  </div>
+
+  <div class="block">
+    <div class="block-label">Overview</div>
+    <div class="block-title">What is Estrellarse?</div>
+    <p></p>
+    <p>Estrellarse is a roguelite movement shooter based on one of my own made characters with the same name. The game is based in 2045 at this time a notorious scientist
+      kidnapped her boyfriend. And Maria goes through the city to look for her boyfriend.
+    </p>
+    <button class="inline-link" onclick="openModal('showcaseModal')">▸ Showcase</button>
+  </div>
+
+  <div class="block">
+    <div class="block-label">Controls</div>
+    <div class="block-title">NOTE: The game is only playable with mouse and keyboard</div>
+    <div class="char-list">
+      <div class="char-row">
+        <div class="char-name">WASD & Mouse</div>
+        <div class="char-desc">Use WASD to move around the world and move your mouse to look around.</div>
+      </div>
+      <div class="char-row">
+        <div class="char-name">Shift & Ctrl</div>
+        <div class="char-desc">Use Left Shift to sprint. In the game you run automatically but by using Left Ctrl you can slowwalk for trickier parkour.</div>
+      </div>
+      <div class="char-row">
+        <div class="char-name">Alt</div>
+        <div class="char-desc">Use Left Alt to use Maria's ability. She can dash with high speeds for a short period of time.</div>
+      </div>
+      <div class="char-row">
+        <div class="char-name">C</div>
+        <div class="char-desc">Use C to slide underneath low hanging objects or to add some flair to your shooting.</div>
+      </div>
+      <div class="char-row">
+        <div class="char-name">Space</div>
+        <div class="char-desc">Use space to jump. You can also hang off hanging poles. When timing the jump right you can jump across these bars like monkeybars</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label">Characters</div>
+    <div class="block-title">Meet some of the appearing characters</div>
+    <div class="char-list">
+      <div class="char-row">
+        <div class="char-name">Maria "Estrellarse" Garcia</div>
+        <div class="char-desc">23 year old woman with the power to dash with great speeds. This game follows her emotional and physical 
+            journey of finding her kidnapped boyfriend.</div>
+      </div>
+      <div class="char-row">
+        <div class="char-name">Ricardo "Lanzado" Hernando</div>
+        <div class="char-desc">Maria's boyfriend. Ricardo has the ability to run at high speeds.</div>
+      </div>
+      <div class="char-row">
+        <div class="char-name">Papaver "Poppy-god" Somniferum</div>
+        <div class="char-desc">A scientist at a big bio-company who became a victim of his own creations.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label">Contribution</div>
+    <div class="block-title">My work</div>
+    <p>All this i made myself. From the story, Characters to the gameplay.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-label">Contribution</div>
+    <div class="block-title">The programming</div>
+    <p>Underneath this block you'll find some of the programming and behind the scenes. 
+      You'll see how i made all my scripts work independently from eachother. I also showcase some behind the scenes for the lighting</p>
+    <button class="inline-link" onclick="openModal('btsModal')">▸ Behind the scenes</button>
+    <a href="my_projects.html" class="inline-link">◂ Back</a>
+  </div>
+</div>
+
+<!-- Showcase modal -->
+<div class="modal-overlay" id="showcaseModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">ESTRELLARSE — SHOWCASE</span>
+      <button class="modal-close" onclick="closeModal('showcaseModal')">✕</button>
+    </div>
+    <div class="slide-viewport">
+      <div class="slide active" data-slide="0"><img src="Pictures\Estrellarse_SS1.png" alt="Screenshot 1"></div>
+      <div class="slide" data-slide="1"><img src="Pictures\Estrellarse_SS2.png" alt="Screenshot 2"></div>
+      <div class="slide" data-slide="2"><img src="Pictures\Estrellarse_GP.gif" alt="Gameplay"></div>
+    </div>
+    <div class="modal-footer">
+      <span class="slide-counter">01 / 03</span>
+      <div class="slide-dots">
+        <div class="dot active" onclick="goTo('showcaseModal',0)"></div>
+        <div class="dot" onclick="goTo('showcaseModal',1)"></div>
+        <div class="dot" onclick="goTo('showcaseModal',2)"></div>
+      </div>
+      <div class="nav-btns">
+        <button class="nav-btn prev-btn" onclick="prevSlide('showcaseModal')" disabled>◂ PREV</button>
+        <button class="nav-btn next-btn" onclick="nextSlide('showcaseModal')">NEXT ▸</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Behind the scenes modal -->
+<div class="modal-overlay" id="btsModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">ESTRELLARSE — BEHIND THE SCENES</span>
+      <button class="modal-close" onclick="closeModal('btsModal')">✕</button>
+    </div>
+    <div class="slide-viewport">
+      <div class="slide active" data-slide="0"><img src="Pictures\Estrellarse_BTS1.png" alt="BTS Screenshot 1"></div>
+      <div class="slide" data-slide="1"><img src="Pictures\Estrellarse_BTS2.png" alt="BTS Screenshot 2"></div>
+      <div class="slide" data-slide="2"><img src="Pictures\Estrellarse_BTS4.png" alt="BTS Screenshot 3"></div>
+    </div>
+    <div class="modal-footer">
+      <span class="slide-counter">01 / 03</span>
+      <div class="slide-dots">
+        <div class="dot active" onclick="goTo('btsModal',0)"></div>
+        <div class="dot" onclick="goTo('btsModal',1)"></div>
+        <div class="dot" onclick="goTo('btsModal',2)"></div>
+      </div>
+      <div class="nav-btns">
+        <button class="nav-btn prev-btn" onclick="prevSlide('btsModal')" disabled>◂ PREV</button>
+        <button class="nav-btn next-btn" onclick="nextSlide('btsModal')">NEXT ▸</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2024 Ruben Stender · Portfolio</footer>
+<script>
+  function tick() { document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8); }
+  setInterval(tick,1000); tick();
+
+  const state = {};
+
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    goTo(id, 0);
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+
+  document.querySelectorAll('.modal-overlay').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      if (e.target === this) closeModal(this.id);
+    });
+  });
+
+  function goTo(modalId, n) {
+    const modal = document.getElementById(modalId);
+    const slides = modal.querySelectorAll('.slide');
+    const dots = modal.querySelectorAll('.dot');
+    const total = slides.length;
+    const cur = state[modalId] || 0;
+
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    state[modalId] = n;
+    slides[n].classList.add('active');
+    dots[n].classList.add('active');
+    modal.querySelector('.slide-counter').textContent = String(n+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+    modal.querySelector('.prev-btn').disabled = n === 0;
+    modal.querySelector('.next-btn').disabled = n === total - 1;
+  }
+
+  function prevSlide(modalId) {
+    const cur = state[modalId] || 0;
+    if (cur > 0) goTo(modalId, cur - 1);
+  }
+  function nextSlide(modalId) {
+    const modal = document.getElementById(modalId);
+    const total = modal.querySelectorAll('.slide').length;
+    const cur = state[modalId] || 0;
+    if (cur < total - 1) goTo(modalId, cur + 1);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    const open = document.querySelector('.modal-overlay.open');
+    if (!open) return;
+    if (e.key === 'ArrowRight') nextSlide(open.id);
+    if (e.key === 'ArrowLeft') prevSlide(open.id);
+    if (e.key === 'Escape') closeModal(open.id);
+  });
+</script>
+</body>
+</html>
